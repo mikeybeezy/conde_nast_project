@@ -15,7 +15,7 @@ DOCKER_IMAGE_NAME='hello-world-app'
 DOCKERFILE_LOCATION="${PWD}/sample-nodejs-app/."
 AWS_ACCOUNT_ID="519912063470"
 DOCKER_IMAGE_TAG="latest"
-
+DOCKER_IMAGE_REPO="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
 
 ######### PARAMETERS END #########
 
@@ -46,7 +46,7 @@ echo '#### Building Docker Image ####'
 docker build -t  ${DOCKER_IMAGE_NAME} ${DOCKERFILE_LOCATION}
 
 #TAG IMAGE
-docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+docker tag ${DOCKER_IMAGE_REPO}
 
 echo '#### Pushing Docker Image To ECR Repository ####'
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
@@ -66,6 +66,3 @@ aws cloudformation wait stack-create-complete --stack-name ${IAM_STACK_NAME} $ST
 echo '#### Creating App cluster and Resources ####'
 aws cloudformation create-stack --template-body file://$PWD/app-cluster.yaml --stack-name ${APP_CLUSTER_STACK_NAME}
 aws cloudformation wait stack-create-complete --stack-name ${APP_CLUSTER_STACK_NAME} $STACK_ID_FROM_CREATE_STACK
-
-echo '#### Creating App cluster and Resources ####'
-aws cloudformation create-stack --template-body file://$PWD/api.yml --stack-name ${APP_DEPLOYMENT_STACK}
