@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: container on ecs cluster
 
 Resources:
-  
+
   Task:
     Type: AWS::ECS::TaskDefinition
     Properties:
@@ -14,8 +14,8 @@ Resources:
         - FARGATE
       ExecutionRoleArn: !ImportValue ECSTaskExecutionRole
       ContainerDefinitions:
-        - Name: booksapi
-          Image: 532497595666.dkr.ecr.us-west-2.amazonaws.com/books-api:v1
+        - ContainerName: !Ref ImageName
+          Image: !Ref ImageRepoUrl
           Cpu: 256
           Memory: 512
           PortMappings:
@@ -26,13 +26,13 @@ Resources:
             Options:
               awslogs-group: 'apis'
               awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: 'books-api'
+              awslogs-stream-prefix: 'hello-world-app-api'
 
   Service:
     Type: AWS::ECS::Service
     DependsOn: ListenerRule
     Properties:
-      ServiceName: books-service
+      ServiceName: hello-world-app-service
       TaskDefinition: !Ref Task
       Cluster: !ImportValue 'ECSCluster'
       LaunchType: FARGATE
@@ -49,14 +49,14 @@ Resources:
           SecurityGroups:
             - !ImportValue ContainerSecurityGroup
       LoadBalancers:
-        - ContainerName: booksapi
+        - ContainerName: !Ref ImageName
           ContainerPort: 4567
           TargetGroupArn: !Ref TargetGroup
 
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: books-tg
+      Name: hello-world-app-tg
       VpcId: !ImportValue VPC
       Port: 80
       Protocol: HTTP
@@ -89,5 +89,4 @@ Outputs:
     Description: Books API Endpoint
     Value: !Join ['', ['http://', !ImportValue DomainName, '/api/books']]
     Export:
-      Name: 'BooksApiEndpoint'
-
+      Name: 'HelloWorldAppApiEndpoint'
