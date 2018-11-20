@@ -8,12 +8,8 @@ The Out
 If you dont have the AWS Cli installd you can do so by navigating to the link below and following the steps.
 https://docs.aws.amazon.com/cli/latest/userguide/installing.html
 
-## 1. You will be prompted to enter your aws user access key and s
+## 1. You will be prompted to enter your aws user access key and secret access key Id
 
 
-## 2
-
-
-## 3
-
-## 4
+## 2. In your terminal run the script conde_script.sh 
+The script will then run through all the  necessery steps to create the CloudFormation stacks, the ECS cluster and deploy the hello world application into the cluster.
