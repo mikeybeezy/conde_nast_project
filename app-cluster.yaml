@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: container cluster on ECS, loadbalancer, security groups and cloudwatch
+Description: Container cluster on ECS, loadbalancer, security groups and cloudwatch
 
 Resources:
-  
+
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: 'bookstore'
+      ClusterName: 'hello-world-app'
 
   LoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -43,7 +43,7 @@ Resources:
       Name: default
       VpcId: !ImportValue 'VPC'
       Protocol: 'HTTP'
-      Port: '80'  
+      Port: '80'
 
   CloudWatchLogsGroup:
     Type: AWS::Logs::LogGroup
@@ -52,7 +52,7 @@ Resources:
       RetentionInDays: 1
 
   ContainerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup      
+    Type: AWS::EC2::SecurityGroup
     Properties:
      VpcId: !ImportValue 'VPC'
      GroupDescription: for ecs containers
@@ -62,7 +62,7 @@ Resources:
 
 
 Outputs:
-  
+
   Cluster:
     Value: !Ref ECSCluster
     Export:
@@ -85,4 +85,3 @@ Outputs:
     Value: !GetAtt LoadBalancer.DNSName
     Export:
       Name: 'DomainName'
-
