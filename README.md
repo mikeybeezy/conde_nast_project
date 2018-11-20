@@ -9,6 +9,7 @@ If you dont have the AWS Cli installd you can do so by navigating to the link be
 https://docs.aws.amazon.com/cli/latest/userguide/installing.html
 
 ## 1. You will be prompted to enter your aws user access key and secret access key Id
+This will enable you to run the start up script with you AWS user account credentials and user priviliages
 
 
 ## 2. In your terminal run the script conde_script.sh 
