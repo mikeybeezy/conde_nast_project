@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: VPC for ecs test
+Description: VPC For Hello World App
 
 Resources:
 
@@ -80,4 +80,3 @@ Outputs:
     Value: !Ref Subnet2
     Export:
       Name: 'Subnet2'
-
